@@ -1,0 +1,43 @@
+8
+
+dir
+281
+https://192.168.20.98/svn/qz_mqfwwz/trunk/code/WebRoot/ckfinder/plugins/imageresize
+https://192.168.20.98/svn/qz_mqfwwz
+
+
+
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8ebe089b-69e8-b849-80ec-60b33533c153
+
+images
+dir
+
+plugin.js
+file
+
+
+
+
+2013-07-02T09:02:12.750000Z
+2107145d7c132f0d1c8e406ec2495d64
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+

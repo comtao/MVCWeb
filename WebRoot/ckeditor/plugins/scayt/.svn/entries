@@ -1,0 +1,55 @@
+8
+
+dir
+281
+https://192.168.20.98/svn/qz_mqfwwz/trunk/code/WebRoot/ckeditor/plugins/scayt
+https://192.168.20.98/svn/qz_mqfwwz
+
+
+
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8ebe089b-69e8-b849-80ec-60b33533c153
+
+LICENSE.md
+file
+
+
+
+
+2013-07-02T09:02:06.609375Z
+e8f3afac5c765acbec1df8fc737eb48d
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+
+dialogs
+dir
+
+README.md
+file
+
+
+
+
+2013-07-02T09:02:06.609375Z
+132e9c5cb5b3163f641685d2ae1b9ef3
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+

@@ -1,0 +1,43 @@
+8
+
+dir
+281
+https://192.168.20.98/svn/qz_mqfwwz/trunk/code/WebRoot/ckfinder/plugins/fileeditor
+https://192.168.20.98/svn/qz_mqfwwz
+
+
+
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8ebe089b-69e8-b849-80ec-60b33533c153
+
+codemirror
+dir
+
+plugin.js
+file
+
+
+
+
+2013-07-02T09:02:14.109375Z
+d6f05e0848bf110c486ae8f0915dc823
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+

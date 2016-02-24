@@ -1,0 +1,43 @@
+8
+
+dir
+281
+https://192.168.20.98/svn/qz_mqfwwz/trunk/code/WebRoot/ckfinder/plugins/dummy
+https://192.168.20.98/svn/qz_mqfwwz
+
+
+
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8ebe089b-69e8-b849-80ec-60b33533c153
+
+lang
+dir
+
+plugin.js
+file
+
+
+
+
+2013-07-02T09:02:14.265625Z
+b5e33b5de26ff7616fae53335c623139
+2013-07-02T08:46:53.781250Z
+281
+wangliqin
+

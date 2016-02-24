@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	
+	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
+	<context:component-scan base-package="com.cn.dao" />
+	<!-- 扫描service类包，应用Spring的注解配置 -->
+	<context:component-scan base-package="com.cn.service"/>
+	<!-- 加载资源文件 -->
+	<bean id="propertyConfigurer" 
+	      class="com.cn.util.CustomizedPropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true" />  
+    	<property name="locations">  
+        <list>  
+            <value>/WEB-INF/source/jdbc.properties</value>  
+            <value>/WEB-INF/source/sysconfig.properties</value>  
+        </list>  
+    </property>  	      
+	</bean>
+	
+	<bean id="springContextUtil" class="com.cn.util.SpringContextUtil"></bean>
+	      
+    <!-- 数据源配置, 使用应用中的DBCP数据库连接池 -->      
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <!-- Connection Info -->
+	    <property name="driverClassName" value="${mysql.jdbc.driverClassName}" />
+	    <property name="url" value="${mysql.jdbc.databaseurl}"/>
+	    <property name="username" value="${mysql.jdbc.username}"/>
+	    <property name="password" value="${mysql.jdbc.password}"/>
+	          
+	    <!-- Connection Pooling Info -->
+		<property name="maxActive" value="${dbcp.maxActive}" />
+		<property name="maxIdle" value="${dbcp.maxIdle}" />
+		<property name="defaultAutoCommit" value="false" />
+		<!-- 连接Idle一个小时后超时 -->
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+    </bean>
+    
+    <!-- jdbctemplate -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    	<property name="dataSource" ref="dataSource"></property>
+    </bean>
+    
+    <!-- 配置事物管理器 -->
+    <bean id="transactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		  p:dataSource-ref="dataSource"/>
+	<!-- 通过AOP配置提供事物增强，让service包下所有Bean的所有方法拥有事物 -->	  
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* com.cn.sys.service..*(..))" id="serviceMethod"/>
+		<aop:pointcut expression="execution(* com.cn.service..*(..))" id="webServiceMethod"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+		<aop:advisor advice-ref="webTxAdvice" pointcut-ref="webServiceMethod"/>
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	    	<tx:method name="*"/>   
+	    </tx:attributes>
+	</tx:advice>
+	<tx:advice id="webTxAdvice" transaction-manager="transactionManager">
+	    <tx:attributes>
+	    	<tx:method name="*"/>   
+	    </tx:attributes>
+	</tx:advice>
+	
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定所上传文件的总大小不能超过200M。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="200000000"/>
+	</bean>  
+	
+	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+			    <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/jsp/404.jsp页面 -->
+				<prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">msg/error_file_upload</prop>
+			</props>
+		</property>
+	</bean>
+</beans>
